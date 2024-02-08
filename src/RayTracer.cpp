@@ -1,19 +1,34 @@
 #include "RayTracer.h"
 #include <iostream>
-#include <typeinfo>
+#include <fstream>
 
-RayTracer::RayTracer(const nlohmann::json& j) :  data(j){
-
+RayTracer::RayTracer(nlohmann::json& j) :  data(j){
 }
+
+void RayTracer::ProcessJson(nlohmann::json& j) {
+    for (auto& element : j.items()) {
+        if (element.key() == "geometry") {
+            raw_geometry.push_back(element.value());
+        } else if (element.key() == "light") {
+            raw_light.push_back(element.value());
+        } else if (element.key() == "output") {
+            raw_output.push_back(element.value());
+        }
+        std::cout << element.key() << " FOUND >>> SAVED IN PRIVATE "<< "raw_"+element.key() << std::endl;
+    }
+    std::cout << "JSON SCENE PARSED CORRECTLY." << std::endl;
+}
+
+void RayTracer::SavePPM(std::string filename) {
+    std::ofstream file(filename);
+}
+
+
 
 void RayTracer::run() {
-    std::cout << "-----------------SIMPLE PARSING OF SCENE-------------------------"<< std::endl;
-    for (auto& element : data.items()) {
-        std::cout << "\n----------------" << element.key() <<"-------------------"<< std::endl;
-        std::cout << " RAW DATA: " << std::endl;
-        std::cout << element.value() << std::endl;
-        std::cout << "------------------------------------------"<< std::endl;
-        
-    }
-    std::cout << "JSON SCENE PARSED CORRECTLY" << std::endl;
+    std::cout << "-----------------ALPHA 1 - RAYTRACER-------------------------"<< std::endl;
+    ProcessJson(data);
+    std::cout <<"Creating " <<FileNameOutput() << " in build directory." <<std::endl;
+    SavePPM(FileNameOutput());
 }
+
