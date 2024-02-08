@@ -9,8 +9,6 @@
 class RayTracer {
 public:
 
-
-
     RayTracer(nlohmann::json& j);
     void ProcessJson(nlohmann::json& j);
     std::string FileNameOutput() {
