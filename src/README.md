@@ -9,4 +9,4 @@ geometry data -> raw_geometry
 light data -> raw_light
 output data -> raw_output
 
-Then a PPM file will be created in the build directory using the `"filename"` attribute from the output data.
+Then PPM file(s) will be created in the build directory using the `"filename"` attribute from the output data.

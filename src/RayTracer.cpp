@@ -28,7 +28,10 @@ void RayTracer::SavePPM(std::string filename) {
 void RayTracer::run() {
     std::cout << "-----------------ALPHA 1 - RAYTRACER-------------------------"<< std::endl;
     ProcessJson(data);
-    std::cout <<"Creating " <<FileNameOutput() << " in build directory." <<std::endl;
-    SavePPM(FileNameOutput());
+    for (auto& output : raw_output[0]) {
+        SavePPM(output["filename"]);
+        std::cout << output["filename"] << " created in build directory." << std::endl;
+    }
+    
 }
 
