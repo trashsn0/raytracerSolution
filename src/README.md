@@ -1,4 +1,4 @@
-# ALPHA 1 - RAYTRACING ASSIGNMENT - SAMUEL PALTI - 40126607
+# ALPHA 2 - RAYTRACING ASSIGNMENT - SAMUEL PALTI - 40126607
 
 The current solution will store the json passed with the following argument :
 
@@ -6,6 +6,7 @@ The current solution will store the json passed with the following argument :
 
 It will store the raw data in the following arrays :
 geometry data -> raw_geometry
+    Object -> Sphere/Rectangle class
 light data -> raw_light
 output data -> raw_output
 
