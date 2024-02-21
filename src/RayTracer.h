@@ -6,6 +6,18 @@
 #include <Eigen/Dense>
 #include <vector>
 #include <memory>
+#include <limits>
+#include <fstream>
+
+/////////////////////////////////////////// BASIC RAYCASTING      //////////////////////////////////////////
+class Ray {
+public:
+    Eigen::Vector3f origin;
+    Eigen::Vector3f direction;
+
+    Ray(const Eigen::Vector3f& o, const Eigen::Vector3f& d) : origin(o), direction(d) {}
+};
+
 
 /////////////////////////////////////////// LIGHTING CLASS METHODS //////////////////////////////////////////
 class Lighting {
@@ -92,15 +104,19 @@ public:
 /////////////////////////////////////////// Output CLASS METHODS //////////////////////////////////////////
 
 class Output {
-public: 
-
-    // Mendatory members
+public:
+    // Mandatory members
     std::string filename;
     Eigen::Vector2i size;
     Eigen::Vector3f centre;
     float fov;
     Eigen::Vector3f up;
     Eigen::Vector3f lookat, ai, bkc;
+
+    // Camera attributes
+    Eigen::Vector3f position;
+    Eigen::Vector3f forward;
+    Eigen::Vector3f right;
 
     // Optional members
     std::vector<unsigned int> raysperpixel;
@@ -112,6 +128,13 @@ public:
     // Destructor
     virtual ~Output() = default;
 
+    // Initialize camera settings based on class members
+    void InitializeCamera() {
+        this->position = this->centre;
+        this->forward = (this->lookat - this->centre).normalized();
+        this->right = this->forward.cross(this->up).normalized();
+        this->up = this->right.cross(this->forward);
+    }
 };
 
 /////////////////////////////////////////// RayTracer CLASS METHODS //////////////////////////////////////////
