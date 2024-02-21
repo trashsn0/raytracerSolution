@@ -175,9 +175,11 @@ std::vector<std::unique_ptr<Object>> RayTracer::GeometryParser() {
     std::vector<std::unique_ptr<Object>> Output;
     for (auto& objectJson : raw_geometry[0]) {
         if (objectJson["type"] == "rectangle") {
-            Output.push_back(std::make_unique<Rectangle>(objectJson));
+            std::unique_ptr<Rectangle> rectPtr(new Rectangle(objectJson));
+            Output.push_back(std::move(rectPtr));
         } else if (objectJson["type"] == "sphere") {
-            Output.push_back(std::make_unique<Sphere>(objectJson));
+            std::unique_ptr<Sphere> spherePtr(new Sphere(objectJson));
+            Output.push_back(std::move(spherePtr));
         }
     }
     return Output;
@@ -208,9 +210,11 @@ std::vector<std::unique_ptr<Lighting>> RayTracer::LightParser() {
     std::vector<std::unique_ptr<Lighting>> Output;
     for (auto& objectJson : raw_light[0]) {
         if (objectJson["type"] == "point") {
-            Output.push_back(std::make_unique<Point>(objectJson));
+            std::unique_ptr<Point> pointPtr(new Point(objectJson));
+            Output.push_back(std::move(pointPtr));
         } else if (objectJson["type"] == "area") {
-            Output.push_back(std::make_unique<Area>(objectJson));
+            std::unique_ptr<Area> areaPtr(new Area(objectJson));
+            Output.push_back(std::move(areaPtr));
         }
     }
     return Output;
@@ -244,7 +248,8 @@ void RayTracer::LightHandler() {
 std::vector<std::unique_ptr<Output>> RayTracer::OutputParser() {
     std::vector<std::unique_ptr<Output>> result;
     for (auto& objectJson : raw_output[0]) {
-        result.push_back(std::make_unique<Output>(objectJson));
+        std::unique_ptr<Output> outputPtr(new Output(objectJson));
+        result.push_back(std::move(outputPtr));
     }
     return result;
 }
